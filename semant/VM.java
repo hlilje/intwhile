@@ -9,11 +9,12 @@ public class VM {
         this.code = code;
     }
 
+    // public Configuration step(Configuration conf)
+
     /**
      * Perform one execute step of the VM, return `false`
      * if no more code can be executed.
      */
-    // public Configuration step(Configuration conf)
     public boolean executeStep() {
         return false;
     }
