@@ -23,13 +23,17 @@ public class Main {
         // Compile s into AM Code AST
         Code am = s.accept(new CompileVisitor());
 
+        // DEBUG
         for (Inst inst : am) System.out.println(inst);
 
-        // Init VM
         VM vm = new VM(am);
 
         // Execute resulting AM Code using a step-function
-        while (true)
-            new BufferedReader(new InputStreamReader(System.in)).readLine();
+        if (DEBUG) {
+            while (vm.executeStep())
+                new BufferedReader(new InputStreamReader(System.in)).readLine();
+        } else {
+            while (vm.executeStep()) {};
+        }
     }
 }
