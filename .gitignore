@@ -1,3 +1,4 @@
 *.class
 *.jar
-jar/
+lib/
+build/
