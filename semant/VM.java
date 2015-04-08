@@ -36,10 +36,10 @@ public class VM {
                 conf.pushStack((a1 == 1) && (a2 == 1) ? 1 : 0);
                 break;
             case BRANCH:
-                a = conf.popStack();
                 // TODO Correct?
-                if (a == 1) code = ((Branch) inst).c1;
-                else code = ((Branch) inst).c2;
+                a = conf.popStack();
+                if (a == 1) code.addAll(((Branch) inst).c1);
+                else code.addAll(((Branch) inst).c2);
                 break;
             case EQ:
                 a1 = conf.popStack();
@@ -59,7 +59,16 @@ public class VM {
                 conf.pushStack(a1 <= a2 ? 1 : 0);
                 break;
             case LOOP:
-                // TODO
+                // TODO Correct?
+                Code c1 = ((Loop) inst).c1;
+                Code c2 = ((Loop) inst).c2;
+                Code c1_2 = new Code();
+                Code c2_2 = new Code();
+                c1_2.add(new Loop(c1, c2));
+                c1_2.addAll(c2);
+                c2_2.add(new Noop());
+                code.addAll(c1);
+                code.add(new Branch(c1_2, c2_2));
                 break;
             case MULT:
                 a1 = conf.popStack();

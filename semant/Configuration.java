@@ -9,6 +9,7 @@ public class Configuration {
 
     public Configuration() {
         symTable = new HashMap<String, Integer>();
+        stack = new Stack<Integer>();
     }
 
     /**
