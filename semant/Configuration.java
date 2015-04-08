@@ -1,6 +1,8 @@
 package semant;
 
 import java.util.HashMap;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Stack;
 
 public class Configuration {
@@ -38,5 +40,30 @@ public class Configuration {
      */
     public int popStack() {
         return stack.pop();
+    }
+
+    /**
+     * Return a string representation of this configuration.
+     */
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("========== Symbol Table ==========\n");
+        for (Map.Entry<String, Integer> entry : symTable.entrySet()) {
+            String var = entry.getKey();
+            int val = entry.getValue();
+            sb.append(var + ": " + val + "\n");
+        }
+
+        sb.append("\n");
+
+        sb.append("======== Stack (Top-Down) ========\n");
+        // Java's stack iterator is reversed
+        for (ListIterator<Integer> it = stack.listIterator(stack.size());
+                it.hasPrevious();) {
+            sb.append(it.previous() + "\n");
+        }
+
+        return sb.toString();
     }
 }

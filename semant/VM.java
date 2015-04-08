@@ -20,7 +20,10 @@ public class VM {
      */
     public boolean executeStep() {
         // Break execution when no more code is available.
-        if (stepCounter == code.size()) return false;
+        if (stepCounter == code.size()) {
+            System.out.println(conf);
+            return false;
+        }
 
         Inst inst = code.get(stepCounter);
         int a, a1, a2;
