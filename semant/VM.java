@@ -7,8 +7,11 @@ public class VM {
     private Configuration conf;
     private int stepCounter = 0;
 
-    public VM(Code code) {
+    private static boolean DEBUG;
+
+    public VM(Code code, boolean debug) {
         this.code = code;
+        DEBUG = debug;
         conf = new Configuration(); // TODO Should not be global
     }
 
@@ -21,11 +24,16 @@ public class VM {
     public boolean executeStep() {
         // Break execution when no more code is available.
         if (stepCounter == code.size()) {
-            System.out.println(conf);
+            if (DEBUG) System.out.println(">>> END");
+            else System.out.println(conf);
             return false;
         }
 
+        if (DEBUG) System.out.println(conf);
+
         Inst inst = code.get(stepCounter);
+        if (DEBUG) System.out.println("> " + inst.opcode);
+
         int a, a1, a2;
         switch (inst.opcode) {
             case ADD:

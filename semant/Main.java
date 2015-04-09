@@ -17,16 +17,22 @@ public class Main {
         Stm s = WhileParser.parse(args[0]);
 
         // Print While AST
+        System.out.println("============= Source =============");
         s.accept(new PrettyPrinter());
+        System.out.println();
         System.out.println();
 
         // Compile s into AM Code AST
         Code am = s.accept(new CompileVisitor());
 
-        // DEBUG
-        for (Inst inst : am) System.out.println(inst);
+        if (DEBUG) {
+            System.out.println("============== Code ==============");
+            for (Inst inst : am) System.out.println(inst);
+            System.out.println();
+            System.out.println(">>> START");
+        }
 
-        VM vm = new VM(am);
+        VM vm = new VM(am, DEBUG);
 
         // Execute resulting AM Code using a step-function
         if (DEBUG) {
