@@ -90,7 +90,6 @@ public class CompileVisitor implements WhileVisitor {
 
     public Code visit(Skip skip) {
         Code c = new Code();
-        // c.addAll(skip.accept(this));
         c.add(new Noop());
         return c;
     }
