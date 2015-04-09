@@ -47,7 +47,6 @@ public class VM {
                 conf.pushStack((a1 == 1) && (a2 == 1) ? 1 : 0);
                 break;
             case BRANCH:
-                // TODO Correct?
                 a = conf.popStack();
                 if (a == 1) code.addAll(((Branch) inst).c1);
                 else code.addAll(((Branch) inst).c2);
@@ -70,7 +69,6 @@ public class VM {
                 conf.pushStack(a1 <= a2 ? 1 : 0);
                 break;
             case LOOP:
-                // TODO Correct?
                 Code c1 = ((Loop) inst).c1;
                 Code c2 = ((Loop) inst).c2;
                 Code c1_2 = new Code();
