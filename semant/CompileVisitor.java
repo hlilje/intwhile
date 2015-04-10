@@ -128,7 +128,10 @@ public class CompileVisitor implements WhileVisitor {
 
     public Code visit(Divide div) {
         Code c = new Code();
-        // TODO
+        // Not commutative
+        c.addAll(div.a2.accept(this));
+        c.addAll(div.a1.accept(this));
+        c.add(new Div());
         return c;
     }
 }

@@ -105,6 +105,12 @@ public class VM {
             case TRUE:
                 conf.pushStack(1); // True
                 break;
+            case DIV:
+                // TODO Add exception for division by 0
+                a1 = conf.popStack();
+                a2 = conf.popStack();
+                conf.pushStack(a1 / a2);
+                break;
             default:
                 System.err.println("Invalid opcode");
                 System.exit(1);
