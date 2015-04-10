@@ -3,6 +3,7 @@ package semant;
 import semant.amsyntax.*;
 
 public class VM {
+
     private Code code;
     private Configuration conf;
     private int stepCounter = 0;
@@ -110,6 +111,9 @@ public class VM {
                 a1 = conf.popStack();
                 a2 = conf.popStack();
                 conf.pushStack(a1 / a2);
+                break;
+            case TRY:
+                // TODO
                 break;
             default:
                 System.err.println("Invalid opcode");

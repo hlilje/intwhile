@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Stack;
 
 public class Configuration {
+
     private HashMap<String, Integer> symTable;
     private Stack<Integer> stack;
 
