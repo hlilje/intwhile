@@ -28,7 +28,9 @@ public class VM {
         // Break execution when no more code is available.
         if (stepCounter == code.size()) {
             if (DEBUG) System.out.println(">>> END");
-            else System.out.println(conf);
+            System.out.println("======= Final Configuration ======");
+            System.out.println();
+            System.out.println(conf);
             return false;
         }
 
