@@ -4,11 +4,13 @@ import semant.amsyntax.*;
 
 public class VM {
 
+    // Value to represent an error
+    private static final int BOT = 0;
+    private static boolean DEBUG;
+
     private Code code;
     private Configuration conf;
     private int stepCounter = 0;
-
-    private static boolean DEBUG;
 
     public VM(Code code, boolean debug) {
         this.code = code;
@@ -107,10 +109,13 @@ public class VM {
                 conf.pushStack(1); // True
                 break;
             case DIV:
-                // TODO Add exception for division by 0
                 a1 = conf.popStack();
                 a2 = conf.popStack();
-                conf.pushStack(a1 / a2);
+                if (a2 == 0) {
+                    conf.setExceptional(true);
+                    conf.pushStack(BOT);
+                } else
+                    conf.pushStack(a1 / a2);
                 break;
             case TRY:
                 // TODO
