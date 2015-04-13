@@ -144,11 +144,16 @@ public class VM {
                     conf.pushStack(a1 / a2);
                 break;
             case TRY:
-                // TODO
+                a = conf.popStack();
+                if (conf.isExceptional())
+                    // TODO
+                else
+                conf.setExceptional(false);
                 break;
             default:
                 System.err.println("Invalid opcode");
                 System.exit(1);
+                break;
         }
 
         ++stepCounter;

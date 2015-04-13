@@ -121,10 +121,8 @@ public class CompileVisitor implements WhileVisitor {
     }
 
     public Code visit(TryCatch trycatch) {
-        // TODO
         Code c = new Code();
-        Code c1 = trycatch.s1.accept(this);
-        Code c2 = trycatch.s2.accept(this);
+        c.add(new Try(trycatch.s1.accept(this), trycatch.s2.accept(this)));
         return c;
     }
 
