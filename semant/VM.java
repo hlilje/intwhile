@@ -38,6 +38,7 @@ public class VM {
         if (DEBUG) System.out.println("> " + inst.opcode);
 
         int a, a1, a2;
+        Code c1, c2, c1_2, c2_2;
         switch (inst.opcode) {
             case ADD:
                 a1 = conf.popStack();
@@ -88,10 +89,10 @@ public class VM {
                     conf.pushStack(a1 <= a2 ? 1 : 0);
                 break;
             case LOOP:
-                Code c1 = ((Loop) inst).c1;
-                Code c2 = ((Loop) inst).c2;
-                Code c1_2 = new Code();
-                Code c2_2 = new Code();
+                c1 = ((Loop) inst).c1;
+                c2 = ((Loop) inst).c2;
+                c1_2 = new Code();
+                c2_2 = new Code();
                 c1_2.addAll(c2);
                 c1_2.add(new Loop(c1, c2));
                 c2_2.add(new Noop());
@@ -144,11 +145,17 @@ public class VM {
                     conf.pushStack(a1 / a2);
                 break;
             case TRY:
-                a = conf.popStack();
-                if (conf.isExceptional())
-                    // TODO
-                else
-                conf.setExceptional(false);
+                c1 = ((Try) inst).c1;
+                c2 = ((Try) inst).c2;
+                if (c1 == null) {
+                    if (conf.isExceptional()) {
+                        conf.setExceptional(false);
+                        code.addAll(c2);
+                    }
+                } else {
+                    code.addAll(c1);
+                    code.add(new Try(null, c2));
+                }
                 break;
             default:
                 System.err.println("Invalid opcode");
