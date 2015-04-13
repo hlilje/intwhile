@@ -59,8 +59,8 @@ public class VM {
             case BRANCH:
                 a = conf.popStack();
                 if (!conf.isExceptional())
-                    if (a == 1) code.addAll(((Branch) inst).c1);
-                    else code.addAll(((Branch) inst).c2);
+                    if (a == 1) code.addAll(stepCounter+1, ((Branch) inst).c1);
+                    else code.addAll(stepCounter+1, ((Branch) inst).c2);
                 break;
             case EQ:
                 a1 = conf.popStack();
@@ -93,8 +93,9 @@ public class VM {
                 c1_2.addAll(c2);
                 c1_2.add(new Loop(c1, c2));
                 c2_2.add(new Noop());
-                code.addAll(c1);
-                code.add(new Branch(c1_2, c2_2));
+                // insert new code at current position in code
+                code.addAll(stepCounter+1, c1);
+                code.add(stepCounter+c1.size()+1, new Branch(c1_2, c2_2));
                 break;
             case MULT:
                 a1 = conf.popStack();
@@ -149,11 +150,11 @@ public class VM {
                     if (conf.isExceptional()) {
                         if (DEBUG) System.out.println("CATCH EXCEPTION");
                         conf.setExceptional(false);
-                        code.addAll(c2);
+                        code.addAll(stepCounter+1, c2);
                     }
                 } else {
-                    code.addAll(c1);
-                    code.add(new Try(null, c2));
+                    code.addAll(stepCounter+1, c1);
+                    code.add(stepCounter+c1.size()+1, new Try(null, c2));
                 }
                 break;
             default:
