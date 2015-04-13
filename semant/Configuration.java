@@ -9,10 +9,12 @@ public class Configuration {
 
     private HashMap<String, Integer> symTable;
     private Stack<Integer> stack;
+    private boolean exceptional;
 
     public Configuration() {
         symTable = new HashMap<String, Integer>();
         stack = new Stack<Integer>();
+        exceptional = false;
     }
 
     /**
@@ -41,6 +43,20 @@ public class Configuration {
      */
     public int popStack() {
         return stack.pop();
+    }
+
+    /**
+     * Return whether the configuration is in an exceptional state.
+     */
+    public boolean isExceptional() {
+        return exceptional;
+    }
+
+    /**
+     * Set the exceptional status of this configuration.
+     */
+    public void setExceptional(boolean exceptional) {
+        this.exceptional = exceptional;
     }
 
     /**
