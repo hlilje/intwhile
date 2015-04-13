@@ -9,10 +9,13 @@ import java.io.InputStreamReader;
 public class Main {
 
     private static boolean DEBUG = false;
+    private static boolean STEP  = false;
 
     public static void main(String[] args) throws Exception {
         if (args.length > 1 && args[1].equals("-d"))
             DEBUG = true;
+        if (args.length > 2 && args[2].equals("-s"))
+            STEP = true;
 
         // Generate While AST
         Stm s = WhileParser.parse(args[0]);
@@ -36,7 +39,7 @@ public class Main {
         VM vm = new VM(am, DEBUG);
 
         // Execute resulting AM Code using a step-function
-        if (DEBUG) {
+        if (STEP) {
             while (vm.executeStep())
                 new BufferedReader(new InputStreamReader(System.in)).readLine();
         } else {
