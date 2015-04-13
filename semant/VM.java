@@ -37,8 +37,8 @@ public class VM {
         Inst inst = code.get(stepCounter);
         if (DEBUG) System.out.println("> " + inst.opcode);
 
-        int a, a1, a2;
         Code c1, c2, c1_2, c2_2;
+        int a, a1, a2;
         switch (inst.opcode) {
             case ADD:
                 a1 = conf.popStack();
@@ -58,12 +58,9 @@ public class VM {
                 break;
             case BRANCH:
                 a = conf.popStack();
-                if (conf.isExceptional())
-                    conf.pushStack(BOT);
-                else {
+                if (!conf.isExceptional())
                     if (a == 1) code.addAll(((Branch) inst).c1);
                     else code.addAll(((Branch) inst).c2);
-                }
                 break;
             case EQ:
                 a1 = conf.popStack();
