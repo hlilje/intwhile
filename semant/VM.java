@@ -139,6 +139,7 @@ public class VM {
                 a1 = conf.popStack();
                 a2 = conf.popStack();
                 if (a2 == 0) {
+                    if (DEBUG) System.out.println("THROW EXCEPTION");
                     conf.setExceptional(true);
                     conf.pushStack(BOT);
                 } else
@@ -149,6 +150,7 @@ public class VM {
                 c2 = ((Try) inst).c2;
                 if (c1 == null) {
                     if (conf.isExceptional()) {
+                        if (DEBUG) System.out.println("CATCH EXCEPTION");
                         conf.setExceptional(false);
                         code.addAll(c2);
                     }
