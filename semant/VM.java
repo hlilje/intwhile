@@ -8,32 +8,21 @@ public class VM {
     private static final int BOT = 0;
     private static boolean DEBUG;
 
-    private Code code;
-    private Configuration conf;
-    private int stepCounter = 0;
+    private Code code;           // Code to be excuted
+    private Configuration conf;  // Current state
+    private int stepCounter = 0; // Current code step
 
     public VM(Code code, boolean debug) {
         this.code = code;
         DEBUG = debug;
-        conf = new Configuration(); // TODO Should not be global
+        conf = new Configuration();
     }
 
-    // public Configuration step(Configuration conf)
-
     /**
-     * Perform one execute step of the VM, return `false`
-     * if no more code can be executed.
+     * Execute one step of the code with the given Configuration `conf`.
+     * Return the resulting configuration.
      */
-    public boolean executeStep() {
-        // Break execution when no more code is available.
-        if (stepCounter == code.size()) {
-            if (DEBUG) System.out.println(">>> END");
-            System.out.println("======= Final Configuration ======");
-            System.out.println();
-            System.out.println(conf);
-            return false;
-        }
-
+    private Configuration step(Configuration conf) {
         if (DEBUG) System.out.println(conf);
 
         Inst inst = code.get(stepCounter);
@@ -61,8 +50,8 @@ public class VM {
             case BRANCH:
                 a = conf.popStack();
                 if (!conf.isExceptional())
-                    if (a == 1) code.addAll(stepCounter+1, ((Branch) inst).c1);
-                    else code.addAll(stepCounter+1, ((Branch) inst).c2);
+                    if (a == 1) code.addAll(stepCounter + 1, ((Branch) inst).c1);
+                    else code.addAll(stepCounter + 1, ((Branch) inst).c2);
                 break;
             case EQ:
                 a1 = conf.popStack();
@@ -95,9 +84,9 @@ public class VM {
                 c1_2.addAll(c2);
                 c1_2.add(new Loop(c1, c2));
                 c2_2.add(new Noop());
-                // insert new code at current position in code
-                code.addAll(stepCounter+1, c1);
-                code.add(stepCounter+c1.size()+1, new Branch(c1_2, c2_2));
+                // Insert new code at current position in code
+                code.addAll(stepCounter + 1, c1);
+                code.add(stepCounter + c1.size() + 1, new Branch(c1_2, c2_2));
                 break;
             case MULT:
                 a1 = conf.popStack();
@@ -152,11 +141,11 @@ public class VM {
                     if (conf.isExceptional()) {
                         if (DEBUG) System.out.println("CATCH EXCEPTION");
                         conf.setExceptional(false);
-                        code.addAll(stepCounter+1, c2);
+                        code.addAll(stepCounter + 1, c2);
                     }
                 } else {
-                    code.addAll(stepCounter+1, c1);
-                    code.add(stepCounter+c1.size()+1, new Try(null, c2));
+                    code.addAll(stepCounter + 1, c1);
+                    code.add(stepCounter + c1.size() + 1, new Try(null, c2));
                 }
                 break;
             default:
@@ -165,7 +154,27 @@ public class VM {
                 break;
         }
 
+        return conf;
+    }
+
+    /**
+     * Perform one execute step of the VM, return `false`
+     * if no more code can be executed.
+     */
+    public boolean executeStep() {
+        // Break execution when no more code is available.
+        if (stepCounter == code.size()) {
+            if (DEBUG) System.out.println(">>> END");
+            System.out.println("======= Final Configuration ======");
+            System.out.println();
+            System.out.println(conf);
+            return false;
+        }
+
+        // Execute one step with the current configuration
+        conf = step(conf);
         ++stepCounter;
+
         return true;
     }
 }
