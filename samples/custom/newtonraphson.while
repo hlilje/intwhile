@@ -1,5 +1,5 @@
 # The Newton-Raphson method for f(x) = x^2 - 190x + 8400 w/o any iter limit.
-# True roots are x = 70 and x = 120.
+# True roots are `x` = 70 and `x` = 120.
 # Should terminate with `ans` = 69.
 
 delta := 4;
