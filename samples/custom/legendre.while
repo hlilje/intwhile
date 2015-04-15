@@ -10,7 +10,7 @@ p := 7;
 exp := p - 1;
 exp := exp / 2;
 
-# Calculate a^exp mod p
+# Calculate a^exp
 i := 1;
 e := a;
 (while i <= (exp - 1) do
