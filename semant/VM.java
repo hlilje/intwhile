@@ -137,6 +137,9 @@ public class VM {
             case TRY:
                 c1 = ((Try) inst).c1;
                 c2 = ((Try) inst).c2;
+                // dont catch outer exceptions
+                if (c1 != null && conf.isExceptional())
+                    break;
                 if (c1 == null) {
                     if (conf.isExceptional()) {
                         if (DEBUG) System.out.println("CATCH EXCEPTION");
