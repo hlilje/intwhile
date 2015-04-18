@@ -1,3 +1,3 @@
-# semant15-intwhile
+# intwhile
 
 Implementation of an interpreter for the `While` language.
