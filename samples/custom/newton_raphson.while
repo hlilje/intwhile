@@ -8,14 +8,16 @@ x := 2; # Initial guess
 N := 0; # Number of iterations
 M := 1000; # Max number of iterations
 
-while (epsilon <= delta & N <= M - 1) do
-    N := N + 1;
-    delta := (x * x - 190 * x + 8400) / (2 * x - 190);
-    x := x - delta;
-    # Abs
-    if delta <= (0 - 1) then
-        delta := delta * (0 - 1)
-    else
-        skip;
-
-ans := x # Result
+try
+    (while (epsilon <= delta & N <= M - 1) do
+        N := N + 1;
+        delta := (x * x - 190 * x + 8400) / (2 * x - 190);
+        x := x - delta;
+        # Abs
+        if delta <= (0 - 1) then
+            delta := delta * (0 - 1)
+        else
+            skip);
+    ans := x # Result
+catch
+    ans := 0
